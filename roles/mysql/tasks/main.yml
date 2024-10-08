@@ -1,0 +1,31 @@
+---
+- name: Install MySQL Server
+  apt:
+    name: mysql-server
+    state: present
+
+- name: Start MySQL service
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Set MySQL root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    host: localhost
+    login_user: root
+    login_password: ''
+
+- name: Create Application Database
+  mysql_db:
+    name: {{ app_name }}
+    state: present
+
+- name: Create Application User
+  mysql_user:
+    name: {{ app_name }}_user
+    password: your_user_password
+    priv: '{{ app_name }}.*:ALL'
+    state: present

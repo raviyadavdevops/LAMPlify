@@ -1,0 +1,35 @@
+---
+- name: Install Apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Enable Apache modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - rewrite
+    - headers
+
+- name: Configure Virtual Host
+  template:
+    src: templates/vhost.conf.j2
+    dest: /etc/apache2/sites-available/{{ app_name }}.conf
+
+- name: Enable Virtual Host
+  command: a2ensite {{ app_name }}
+  notify:
+    - Restart Apache
+
+- name: Start Apache service
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Restart Apache
+  service:
+    name: apache2
+    state: restarted
+  when: apache_vhost_changed is changed

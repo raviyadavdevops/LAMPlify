@@ -1,0 +1,8 @@
+[lamp_dev]
+dev_server_ip ansible_ssh_user=your_ssh_user
+
+[lamp_staging]
+staging_server_ip ansible_ssh_user=your_ssh_user
+
+[lamp_production]
+prod_server_ip ansible_ssh_user=your_ssh_user
