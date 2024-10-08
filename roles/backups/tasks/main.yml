@@ -1,0 +1,10 @@
+---
+- name: Create backup directory
+  file:
+    path: /var/backups/mysql
+    state: directory
+    mode: '0755'
+
+- name: Backup MySQL Database
+  command: mysqldump -u root -p{{ mysql_root_password }} {{ app_name }} > /var/backups/mysql/{{ app_name }}_backup_{{ ansible_date_time.iso8601 }}.sql
+  when: ansible_date_time.iso8601 | regex_search('T00:00:00')  # Run backup daily at midnight

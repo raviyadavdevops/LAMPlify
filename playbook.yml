@@ -1,0 +1,12 @@
+---
+- hosts: lamp_dev, lamp_staging, lamp_production
+  become: yes
+  vars:
+    mysql_root_password: your_user_password
+    app_name: myapp
+  roles:
+    - apache
+    - mysql
+    - php
+    - monitoring
+    - backups

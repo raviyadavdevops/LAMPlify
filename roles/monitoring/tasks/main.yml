@@ -1,0 +1,11 @@
+---
+- name: Install Monitoring Tool (e.g., Nagios)
+  apt:
+    name: nagios3
+    state: present
+
+- name: Start Nagios service
+  service:
+    name: nagios3
+    state: started
+    enabled: yes
